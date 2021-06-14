@@ -128,6 +128,16 @@ def generate(module, *namespaces):
             prefix + "RwLockReadGuard;\n" +
             prefix + "RwLockWriteGuard;\n"
         )
+    elif module == "ffi":
+        prefix = (
+            "    #[cfg(all("
+            "feature = \"alloc\", "
+            "feature = \"compact_cstr\""
+            "))] pub use cstr_core::"
+        )
+        out += (
+            prefix + "CStr;\n"
+        )
 
     out += "}"
     return out
@@ -193,6 +203,13 @@ generated["prelude"] = """pub mod prelude {
         pub use __alloc::{format, vec};
         #[cfg(feature = "compat_macros")]
         pub use crate::{print, println, eprint, eprintln, dbg};
+    }
+}"""
+
+generated["os"] = """pub mod os {
+    pub mod raw {
+        pub use __core::ffi::c_void;
+        #[cfg(all(feature = "alloc", feature = "compact_osraw"))] pub use libc::{c_char, c_double, c_float, c_int, c_long, c_longlong, c_schar, c_short, c_uchar, c_uint, c_ulong, c_ulonglong, c_ushort};
     }
 }"""
 

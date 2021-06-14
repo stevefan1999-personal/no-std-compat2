@@ -54,6 +54,7 @@ pub mod f64 {
 }
 pub mod ffi {
     pub use __core::ffi::*;
+    #[cfg(all(feature = "alloc", feature = "compact_cstr"))] pub use cstr_core::CStr;
 }
 pub mod fmt {
     pub use __core::fmt::*;
@@ -109,6 +110,12 @@ pub mod ops {
 }
 pub mod option {
     pub use __core::option::*;
+}
+pub mod os {
+    pub mod raw {
+        pub use __core::ffi::c_void;
+        #[cfg(all(feature = "alloc", feature = "compact_osraw"))] pub use libc::{c_char, c_double, c_float, c_int, c_long, c_longlong, c_schar, c_short, c_uchar, c_uint, c_ulong, c_ulonglong, c_ushort};
+    }
 }
 pub mod panic {
     #[cfg(feature = "unstable")] pub use __core::panic::*;
@@ -168,6 +175,9 @@ pub mod str {
     pub use __core::str::*;
     #[cfg(feature = "alloc")] pub use __alloc::str::*;
 }
+pub mod stream {
+    pub use __core::stream::*;
+}
 pub mod string {
     #[cfg(feature = "alloc")] pub use __alloc::string::*;
 }
@@ -183,7 +193,7 @@ pub mod sync {
 }
 pub mod task {
     pub use __core::task::*;
-    #[cfg(all(feature = "alloc", feature = "unstable", not(target_os = "none")))] pub use __alloc::task::*;
+    #[cfg(all(feature = "alloc", not(target_os = "none")))] pub use __alloc::task::*;
 }
 pub mod time {
     pub use __core::time::*;
