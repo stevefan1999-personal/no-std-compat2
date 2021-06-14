@@ -176,7 +176,7 @@ pub mod str {
     #[cfg(feature = "alloc")] pub use __alloc::str::*;
 }
 pub mod stream {
-    pub use __core::stream::*;
+    #[cfg(feature = "unstable")] pub use __core::stream::*;
 }
 pub mod string {
     #[cfg(feature = "alloc")] pub use __alloc::string::*;

@@ -150,6 +150,7 @@ alloc = modules("alloc")
 
 # Module overrides
 core["lazy"].unstable = True
+core["stream"].unstable = True
 alloc["sync"].cfgs.append("not(target_os = \"none\")")
 alloc["task"].cfgs.append("not(target_os = \"none\")")
 
