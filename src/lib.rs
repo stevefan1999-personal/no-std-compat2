@@ -1,6 +1,6 @@
 #![no_std]
 #![cfg_attr(all(not(feature = "std"), feature = "unstable"),
-            feature(core_intrinsics, core_panic, once_cell, raw, unicode_internals))]
+            feature(core_intrinsics, core_panic, once_cell, raw, unicode_internals, async_stream))]
 #![cfg_attr(all(not(feature = "std"), feature = "alloc", feature = "unstable"),
             feature(alloc_prelude, raw_vec_internals))]
 #![cfg_attr(all(not(feature = "std"), feature = "alloc", feature = "unstable", not(target_os = "none")),
