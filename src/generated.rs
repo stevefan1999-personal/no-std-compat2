@@ -160,7 +160,7 @@ pub mod prelude {
         pub use __alloc::{format, vec};
         #[cfg(feature = "compat_macros")]
         pub use crate::{print, println, eprint, eprintln, dbg};
-        #[cfg(feature = "compat_guard_unwrap")] pub use crate::compat_guard_unwrap::UnwrapExt as __CompactGuardUnwrapExt;
+        #[cfg(feature = "compat_guard_unwrap")] pub use crate::compat_guard_unwrap::UnwrapExt as __CompatGuardUnwrapExt;
     }
 }
 pub mod primitive {
