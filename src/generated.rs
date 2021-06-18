@@ -41,8 +41,8 @@ pub mod collections {
     #[cfg(all(feature = "alloc", feature = "compat_hash"))] pub use hashbrown::HashSet;
 }
 
-#[cfg(feature = "compact_guard_unwrap")]
-pub mod compact_guard_unwrap {
+#[cfg(feature = "compat_guard_unwrap")]
+pub mod compat_guard_unwrap {
     pub trait UnwrapExt: Sized {
         fn unwrap(self) -> Self { self }
     }
@@ -64,7 +64,7 @@ pub mod f64 {
 }
 pub mod ffi {
     pub use __core::ffi::*;
-    #[cfg(all(feature = "alloc", feature = "compact_cstr"))] pub use cstr_core::CStr;
+    #[cfg(all(feature = "alloc", feature = "compat_cstr"))] pub use cstr_core::CStr;
 }
 pub mod fmt {
     pub use __core::fmt::*;
@@ -124,7 +124,7 @@ pub mod option {
 pub mod os {
     pub mod raw {
         pub use __core::ffi::c_void;
-        #[cfg(all(feature = "compact_osraw"))] pub use libc::{c_char, c_double, c_float, c_int, c_long, c_longlong, c_schar, c_short, c_uchar, c_uint, c_ulong, c_ulonglong, c_ushort};
+        #[cfg(all(feature = "compat_osraw"))] pub use libc::{c_char, c_double, c_float, c_int, c_long, c_longlong, c_schar, c_short, c_uchar, c_uint, c_ulong, c_ulonglong, c_ushort};
     }
 }
 pub mod panic {
@@ -134,7 +134,7 @@ pub mod panicking {
     #[cfg(feature = "unstable")] pub use __core::panicking::*;
 }
 pub mod path {
-    #[cfg(feature = "compact_path")] pub use unix_path::*;
+    #[cfg(feature = "compat_path")] pub use unix_path::*;
 }
 pub mod pin {
     pub use __core::pin::*;
@@ -160,7 +160,7 @@ pub mod prelude {
         pub use __alloc::{format, vec};
         #[cfg(feature = "compat_macros")]
         pub use crate::{print, println, eprint, eprintln, dbg};
-        #[cfg(feature = "compact_guard_unwrap")] pub use crate::compact_guard_unwrap::UnwrapExt as __CompactGuardUnwrapExt;
+        #[cfg(feature = "compat_guard_unwrap")] pub use crate::compat_guard_unwrap::UnwrapExt as __CompactGuardUnwrapExt;
     }
 }
 pub mod primitive {
