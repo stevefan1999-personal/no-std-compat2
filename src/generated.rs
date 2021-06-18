@@ -123,6 +123,9 @@ pub mod panic {
 pub mod panicking {
     #[cfg(feature = "unstable")] pub use __core::panicking::*;
 }
+pub mod path {
+    #[cfg(feature = "compact_path")] pub use unix_path::*;
+}
 pub mod pin {
     pub use __core::pin::*;
 }
