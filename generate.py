@@ -210,7 +210,7 @@ generated["prelude"] = """pub mod prelude {
 generated["os"] = """pub mod os {
     pub mod raw {
         pub use __core::ffi::c_void;
-        #[cfg(all(feature = "compact_osraw"))] pub use libc_interface::{c_char, c_double, c_float, c_int, c_long, c_longlong, c_schar, c_short, c_uchar, c_uint, c_ulong, c_ulonglong, c_ushort};
+        #[cfg(all(feature = "compact_osraw"))] pub use libc::{c_char, c_double, c_float, c_int, c_long, c_longlong, c_schar, c_short, c_uchar, c_uint, c_ulong, c_ulonglong, c_ushort};
     }
 }"""
 
