@@ -40,6 +40,16 @@ pub mod collections {
     #[cfg(all(feature = "alloc", feature = "compat_hash"))] pub use hashbrown::HashMap;
     #[cfg(all(feature = "alloc", feature = "compat_hash"))] pub use hashbrown::HashSet;
 }
+
+#[cfg(feature = "compact_guard_unwrap")]
+pub mod compact_guard_unwrap {
+    pub trait UnwrapExt: Sized {
+        fn unwrap(self) -> Self { self }
+    }
+    #[cfg(all(feature = "alloc", feature = "compat_sync"))] impl<'a, T: ?Sized> UnwrapExt for super::sync::MutexGuard<'a, T> {}
+    #[cfg(all(feature = "alloc", feature = "compat_sync"))] impl<'a, T: ?Sized> UnwrapExt for super::sync::RwLockReadGuard<'a, T> {}
+    #[cfg(all(feature = "alloc", feature = "compat_sync"))] impl<'a, T: ?Sized> UnwrapExt for super::sync::RwLockWriteGuard<'a, T> {}
+}
 pub mod convert {
     pub use __core::convert::*;
 }
