@@ -17,15 +17,6 @@
     all(not(feature = "std"), feature = "alloc", feature = "unstable"),
     feature(raw_vec_internals)
 )]
-#![cfg_attr(
-    all(
-        not(feature = "std"),
-        feature = "alloc",
-        feature = "unstable",
-        not(target_os = "none"),
-    ),
-    feature(wake_trait)
-)]
 
 // Can't use cfg_if! because it does not allow nesting :(
 
