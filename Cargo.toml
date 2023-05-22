@@ -1,6 +1,6 @@
 [package]
 name = "no-std-compat2"
-version = "0.4.4"
+version = "0.4.5"
 authors = ["jD91mZM2 <me@krake.one>", "Steve Fan <29133953+stevefan1999-personal@users.noreply.github.com>"]
 exclude = [ "example-crates/**/*" ]
 description = "A `#![no_std]` compatibility layer that will make porting your crate to no_std *easy*. This fork fixes build upto Rust Edition 2021"
@@ -11,7 +11,7 @@ readme = "README.md"
 edition = "2021"
 
 [package.metadata.docs.rs]
-all-features = true
+features = ["alloc", "unstable", "compat_hash", "compat_sync", "compat_macros", "compat_cstr", "compat_osraw", "compat_path", "compat_guard_unwrap"]
 rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
@@ -20,24 +20,64 @@ spin = { version = "0.9.8", optional = true }
 cstr_core = { version = "0.2.3", optional = true }
 libc = { version = "0.2.97", optional = true }
 unix_path = { version = "1.0.1", optional = true }
+document-features = "0.2.7"
 
 [dev-dependencies]
 libc = "0.2.97"
 
-[profile.dev]
-panic = "abort"
-
 [features]
+default = []
+
+## This feature pulls in `alloc` and exposes it in all the usual
+## locations. I.e `std::collection` gets mapped to `alloc::collections` and all
+## the allocation stuff is added to the prelude.
 alloc = []
+
+## This feature pulls in the entire standard library and overrides all
+## other features. This effectively bypasses this crate completely. This is here
+## to avoid needing feature gates: Just forward your optional `std` feature to
+## here, we handle the rest.
 std = []
+
+## This feature also re-exports all unstable modules, which isn't
+## possible to do unless you compile with nightly. Unless you need an unstable
+## module, this crate supports stable rust.
 unstable = []
-# This will sadly also add hashbrown even if overriden by std. Cargo
-# does not seem to provide any cfg(compat_hash && !std) functionality.
-# Luckily, hashbrown is really small.
+
+### This will sadly also add hashbrown even if overriden by std. Cargo
+### does not seem to provide any cfg(compat_hash && !std) functionality.
+### Luckily, hashbrown is really small.
+
+## This pulls in
+## [hashbrown](https://github.com/rust-lang/hashbrown) (which is not
+## HashDoS-resistant!! but #![no_std]). The point is so you can keep using the
+## standard, safe, HashMap for those who have the standard library, and fall
+## back to a less ideal alternative for those who do not. Be advised, however,
+## that this used in a public function signature could be confusing and should
+## perhaps be avoided. But that is up to you!
 compat_hash = ["hashbrown"]
+
+## This pulls in [spin](https://github.com/mvdnes/spin-rs) and
+## provides replacements for several things used in `std::sync`.
 compat_sync = ["spin"]
+
+## This feature adds dummy `println`, `eprintln`, `dbg`,
+## etc. implementations that do absolutely nothing. The point is that any debug
+## functions or other loggings that are not required for the library to
+## function, just stay silent in `no_std`.
 compat_macros = []
+
+## Enable CStr
 compat_cstr = ["cstr_core"]
+
+## Enable std::os::raw
 compat_osraw = ["libc"]
+
+## Enable std::path
 compat_path = ["unix_path"]
+
+## .
 compat_guard_unwrap = []
+
+[build-dependencies]
+rustc_version = "0.4.0"

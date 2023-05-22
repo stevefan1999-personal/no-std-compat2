@@ -1,3 +1,4 @@
+#![cfg_attr(all(doc, CHANNEL_NIGHTLY), feature(doc_cfg, doc_auto_cfg))]
 #![no_std]
 #![cfg_attr(
     all(not(feature = "std"), feature = "unstable"),
@@ -17,6 +18,9 @@
     all(not(feature = "std"), feature = "alloc", feature = "unstable"),
     feature(raw_vec_internals)
 )]
+
+//! ## Feature flags
+#![doc = document_features::document_features!(feature_label = r#"<span class="stab portability"><code>{feature}</code></span>"#)]
 
 // Can't use cfg_if! because it does not allow nesting :(
 
