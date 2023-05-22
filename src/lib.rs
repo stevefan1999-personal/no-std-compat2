@@ -33,6 +33,14 @@ pub mod prelude {
         // Macros aren't included in the prelude for some reason
         pub use std::{dbg, eprint, eprintln, format, print, println, vec};
     }
+    pub mod rust_2018 {
+        pub use super::v1::*;
+        pub use std::prelude::rust_2018::*;
+    }
+    pub mod rust_2021 {
+        pub use super::v1::*;
+        pub use std::prelude::rust_2021::*;
+    }
 }
 #[cfg(feature = "std")]
 pub use std::*;
@@ -40,7 +48,7 @@ pub use std::*;
 // The 2 underscores in the crate names are used to avoid
 // ambiguity between whether the user wants to use the public
 // module std::alloc or the private crate no_std_compat2::alloc
-// (see https://gitlab.com/jD91mZM2/no-std-compat2/issues/1)
+// (see https://gitlab.com/jD91mZM2/no-std-compat/issues/1)
 
 // if #[cfg(feature = "alloc")] {
 #[cfg(all(not(feature = "std"), feature = "alloc"))]

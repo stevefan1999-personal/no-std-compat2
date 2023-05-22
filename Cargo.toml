@@ -1,6 +1,6 @@
 [package]
 name = "no-std-compat2"
-version = "0.4.2"
+version = "0.4.3"
 authors = ["jD91mZM2 <me@krake.one>", "Steve Fan <29133953+stevefan1999-personal@users.noreply.github.com>"]
 exclude = [ "example-crates/**/*" ]
 description = "A `#![no_std]` compatibility layer that will make porting your crate to no_std *easy*. This fork fixes build upto Rust Edition 2021"
@@ -9,6 +9,10 @@ categories = [ "no-std" ]
 license = "MIT"
 readme = "README.md"
 edition = "2021"
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
 hashbrown = { version = "0.13.2", optional = true }
