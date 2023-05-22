@@ -1,5 +1,9 @@
 # `no-std-compat2`
 
+
+![docs.rs](https://img.shields.io/docsrs/no-std-compat2)
+![Crates.io](https://img.shields.io/crates/d/no-std-compat2)
+
 A `#![no_std]` compatibility layer that will make porting your crate
 to no_std *easy*.
 
