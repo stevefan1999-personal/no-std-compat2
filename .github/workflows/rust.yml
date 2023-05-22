@@ -1,4 +1,4 @@
-name: Build and Publish
+name: Build and test, and push file if needed
 
 on:
   workflow_dispatch: {}

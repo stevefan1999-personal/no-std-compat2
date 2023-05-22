@@ -1,0 +1,23 @@
+name: Publish to crates.io
+
+on:
+  workflow_dispatch: {}
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install latest stable
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          components: rustfmt, clippy, rust-src
+      - uses: Swatinem/rust-cache@v2
+      - uses: katyo/publish-crates@v2
+        with:
+            registry-token: ${{ secrets.CARGO_REGISTRY_TOKEN }}
