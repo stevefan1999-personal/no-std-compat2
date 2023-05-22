@@ -1,6 +1,6 @@
 #![no_std]
 
-extern crate no_std_compat as std;
+extern crate no_std_compat2 as std;
 
 use std::prelude::v1::*;
 

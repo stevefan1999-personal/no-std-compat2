@@ -60,7 +60,7 @@ def modules(crate):
         if not os.path.isfile(path):
             path = os.path.join(root, module, "mod.rs")
         try:
-            with open(path, "r") as f:
+            with open(path, "r", encoding="utf8") as f:
                 unstable = "#![unstable" in f.read()
                 if unstable:
                     print(
@@ -139,7 +139,7 @@ core = modules("core")
 alloc = modules("alloc")
 
 # Module overrides
-core["lazy"].unstable = True
+core["async_iter"].unstable = True
 alloc["sync"].cfgs.append("not(target_os = \"none\")")
 alloc["task"].cfgs.append("not(target_os = \"none\")")
 
@@ -175,22 +175,15 @@ for module in alloc_keys - core_keys:
 generated["prelude"] = """pub mod prelude {
     pub mod v1 {
         // Prelude
-        pub use __core::prelude::v1::*;
-        #[cfg(all(feature = "alloc", feature = "unstable"))]
-        pub use __alloc::prelude::v1::*;
+        pub use __core::prelude::rust_2021::*;
         #[cfg(all(feature = "alloc", not(feature = "unstable")))]
         pub use __alloc::{
-            borrow::ToOwned,
-            boxed::Box,
             // UNSTABLE: slice::SliceConcatExt,
-            string::String,
-            string::ToString,
-            vec::Vec,
         };
 
         // Other imports
         #[cfg(feature = "alloc")]
-        pub use __alloc::{format, vec};
+        pub use __alloc::{format, vec, vec::Vec, string::String, string::ToString, borrow::ToOwned, boxed::Box};
         #[cfg(feature = "compat_macros")]
         pub use crate::{print, println, eprint, eprintln, dbg};
     }

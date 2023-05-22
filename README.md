@@ -1,10 +1,10 @@
-# `no-std-compat`
+# `no-std-compat2`
 
 A `#![no_std]` compatibility layer that will make porting your crate
 to no_std *easy*.
 
-It supports stable rust by default since no-std-compat version 0.2.0
-([See issue #2](https://gitlab.com/jD91mZM2/no-std-compat/issues/2)).
+It supports stable rust by default since no-std-compat2 version 0.2.0
+([See issue #2](https://gitlab.com/jD91mZM2/no-std-compat2/issues/2)).
 
 ## Why this exists
 
@@ -46,14 +46,14 @@ should only need few conditional compilation attributes.
 
 ```toml
 [dependencies]
-no-std-compat = { version = "...", features = [ "alloc" ] }
+no-std-compat2 = { version = "...", features = [ "alloc" ] }
 ```
 
 2​. Optionally, add a `std` flag that pulls in the entire standard
    library and bypasses this compatibility crate. This is useful so
    you can use the standard library for debugging and for extra
    functionality for those who support it. The below code *optionally*
-   adds the `std` feature as well to `no-std-compat`, which makes it
+   adds the `std` feature as well to `no-std-compat2`, which makes it
    just link to the standard library.
 
 `Cargo.toml`:
@@ -61,12 +61,12 @@ no-std-compat = { version = "...", features = [ "alloc" ] }
 ```toml
 [features]
 default = [ "std" ] # Default to using the std
-std = [ "no-std-compat/std" ]
+std = [ "no-std-compat2/std" ]
 ```
 
 3​. Enable `no_std`, and import this crate renamed to `std`. This ensures all
    old imports still work on `no_std`. Even if you do want to use the std,
-   enabling `no_std` is okay - `no-std-compat` will pull in std if you send the
+   enabling `no_std` is okay - `no-std-compat2` will pull in std if you send the
    right feature flags anyway. You could, of course, use any other name than
    "std" here too. But this is what I would recommend.
 
@@ -75,7 +75,7 @@ std = [ "no-std-compat/std" ]
 ```rust
 #![no_std]
 
-extern crate no_std_compat as std;
+extern crate no_std_compat2 as std;
 ```
 
 4​. Import the prelude *in all files*. This is because in `no_std`,

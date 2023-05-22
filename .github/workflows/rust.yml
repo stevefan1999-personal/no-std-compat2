@@ -1,0 +1,47 @@
+name: Build and Publish
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install latest stable
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          components: rustfmt, clippy, rust-src
+      - name: Install latest nightly
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          override: true
+          components: rustfmt, clippy, rust-src
+      - uses: Swatinem/rust-cache@v2
+      - name: Generate
+        run: python ./generate.py > ./src/generated.rs
+      - name: Format
+        run: |
+          cargo clippy --fix --allow-dirty --allow-staged
+          cargo fmt
+      - name: Run tests
+        run: python ./check.py
+      - name: Commit files
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -a -m "Update files"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
