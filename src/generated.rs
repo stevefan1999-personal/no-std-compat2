@@ -54,6 +54,21 @@ pub mod collections {
     #[cfg(all(feature = "alloc", feature = "compat_hash"))]
     pub use hashbrown::HashSet;
 }
+
+#[cfg(feature = "compat_guard_unwrap")]
+pub mod compat_guard_unwrap {
+    pub trait UnwrapExt: Sized {
+        fn unwrap(self) -> Self {
+            self
+        }
+    }
+    #[cfg(all(feature = "alloc", feature = "compat_sync"))]
+    impl<'a, T: ?Sized> UnwrapExt for super::sync::MutexGuard<'a, T> {}
+    #[cfg(all(feature = "alloc", feature = "compat_sync"))]
+    impl<'a, T: ?Sized> UnwrapExt for super::sync::RwLockReadGuard<'a, T> {}
+    #[cfg(all(feature = "alloc", feature = "compat_sync"))]
+    impl<'a, T: ?Sized> UnwrapExt for super::sync::RwLockWriteGuard<'a, T> {}
+}
 pub mod convert {
     pub use __core::convert::*;
 }
@@ -74,6 +89,8 @@ pub mod ffi {
     #[cfg(feature = "alloc")]
     pub use __alloc::ffi::*;
     pub use __core::ffi::*;
+    #[cfg(all(feature = "alloc", feature = "compat_cstr"))]
+    pub use cstr_core::CStr;
 }
 pub mod fmt {
     #[cfg(feature = "alloc")]
@@ -133,12 +150,26 @@ pub mod ops {
 pub mod option {
     pub use __core::option::*;
 }
+pub mod os {
+    pub mod raw {
+        pub use __core::ffi::c_void;
+        #[cfg(feature = "compat_osraw")]
+        pub use libc::{
+            c_char, c_double, c_float, c_int, c_long, c_longlong, c_schar, c_short, c_uchar,
+            c_uint, c_ulong, c_ulonglong, c_ushort,
+        };
+    }
+}
 pub mod panic {
     pub use __core::panic::*;
 }
 pub mod panicking {
     #[cfg(feature = "unstable")]
     pub use __core::panicking::*;
+}
+pub mod path {
+    #[cfg(feature = "compat_path")]
+    pub use unix_path::*;
 }
 pub mod pin {
     pub use __core::pin::*;
@@ -151,6 +182,8 @@ pub mod prelude {
         pub use __core::prelude::rust_2021::*;
 
         // Other imports
+        #[cfg(feature = "compat_guard_unwrap")]
+        pub use crate::compat_guard_unwrap::UnwrapExt as __CompatGuardUnwrapExt;
         #[cfg(feature = "compat_macros")]
         pub use crate::{dbg, eprint, eprintln, print, println};
         #[cfg(feature = "alloc")]

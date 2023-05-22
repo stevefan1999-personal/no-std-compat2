@@ -17,9 +17,12 @@ rustdoc-args = ["--cfg", "docsrs"]
 [dependencies]
 hashbrown = { version = "0.13.2", optional = true }
 spin = { version = "0.9.8", optional = true }
+cstr_core = { version = "0.2.3", optional = true }
+libc = { version = "0.2.97", optional = true }
+unix_path = { version = "1.0.1", optional = true }
 
 [dev-dependencies]
-libc = "0.2.74"
+libc = "0.2.97"
 
 [profile.dev]
 panic = "abort"
@@ -34,3 +37,7 @@ unstable = []
 compat_hash = ["hashbrown"]
 compat_sync = ["spin"]
 compat_macros = []
+compat_cstr = ["cstr_core"]
+compat_osraw = ["libc"]
+compat_path = ["unix_path"]
+compat_guard_unwrap = []
