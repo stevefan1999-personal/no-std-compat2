@@ -1,10 +1,10 @@
 [package]
 name = "no-std-compat2"
-version = "0.4.1"
-authors = ["jD91mZM2 <me@krake.one>"]
+version = "0.4.2"
+authors = ["jD91mZM2 <me@krake.one>", "Steve Fan <29133953+stevefan1999-personal@users.noreply.github.com>"]
 exclude = [ "example-crates/**/*" ]
-description = "A `#![no_std]` compatibility layer that will make porting your crate to no_std *easy*."
-repository = "https://gitlab.com/jD91mZM2/no-std-compat2"
+description = "A `#![no_std]` compatibility layer that will make porting your crate to no_std *easy*. This fork fixes build upto Rust Edition 2021"
+repository = "https://github.com/stevefan1999-personal/no-std-compat2"
 categories = [ "no-std" ]
 license = "MIT"
 readme = "README.md"
